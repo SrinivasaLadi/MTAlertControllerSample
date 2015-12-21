@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9060" systemVersion="15B42" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9051"/>
+        <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Action Sheet" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LER-F5-h1O">
+                                <rect key="frame" x="204" y="268" width="205" height="21"/>
+                                <animations/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" spacing="3" translatesAutoresizingMaskIntoConstraints="NO" id="8Lv-my-SaR">
+                                <rect key="frame" x="197" y="101" width="206" height="96"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OvW-5W-vUk">
+                                        <rect key="frame" x="23" y="0.0" width="161" height="30"/>
+                                        <animations/>
+                                        <state key="normal" title="Alert view With buttons"/>
+                                        <connections>
+                                            <action selector="btnAlertWithButtonsPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="iNM-HH-yu3"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XPz-jg-4Pb">
+                                        <rect key="frame" x="0.0" y="33" width="206" height="30"/>
+                                        <animations/>
+                                        <state key="normal" title="Alert view With input text feild"/>
+                                        <connections>
+                                            <action selector="btnAlertWithInputText:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Q2Y-6D-zXr"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PeQ-kc-qVZ">
+                                        <rect key="frame" x="9" y="66" width="189" height="30"/>
+                                        <animations/>
+                                        <state key="normal" title="Alert view With rename text"/>
+                                        <connections>
+                                            <action selector="btnAlertWithRenameText:" destination="BYZ-38-t0r" eventType="touchUpInside" id="3XJ-fp-YoK"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <animations/>
+                            </stackView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Alert Contoller" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Bg5-Om-8L9">
+                                <rect key="frame" x="204" y="40" width="199" height="21"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="Bg5-Om-8L9" secondAttribute="height" multiplier="38:7" constant="85" id="HUS-A5-g0T"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UaS-u7-CIf">
+                                <rect key="frame" x="213" y="313" width="206" height="30"/>
+                                <animations/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="UaS-u7-CIf" secondAttribute="height" multiplier="11:2" constant="41" id="2oH-52-SSI"/>
+                                </constraints>
+                                <state key="normal" title="Action Sheet"/>
+                                <connections>
+                                    <action selector="btnShowActionSheet:" destination="BYZ-38-t0r" eventType="touchUpInside" id="A2q-RV-Gs8"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <animations/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="8Lv-my-SaR" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="1na-6d-Gyk"/>
+                            <constraint firstItem="LER-F5-h1O" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="19:100" constant="91" id="6Cj-EO-8M9"/>
+                            <constraint firstItem="8Lv-my-SaR" firstAttribute="width" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="103:300" id="9Oa-2Z-ENH"/>
+                            <constraint firstItem="Bg5-Om-8L9" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="20" id="LLU-O9-007"/>
+                            <constraint firstItem="LER-F5-h1O" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="248" id="TgR-NJ-qdm"/>
+                            <constraint firstItem="LER-F5-h1O" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="6.5" id="WcS-U3-ing"/>
+                            <constraint firstItem="Bg5-Om-8L9" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" constant="3.5" id="ZJ1-zR-4zx"/>
+                            <constraint firstItem="UaS-u7-CIf" firstAttribute="top" secondItem="LER-F5-h1O" secondAttribute="bottom" constant="24" id="eEx-Yp-cAV"/>
+                            <constraint firstItem="UaS-u7-CIf" firstAttribute="leading" secondItem="LER-F5-h1O" secondAttribute="leading" constant="9" id="qqA-Rj-pca"/>
+                            <constraint firstItem="8Lv-my-SaR" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="81" id="tpz-AO-2Sk"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="282" y="311"/>
+        </scene>
+    </scenes>
+</document>
