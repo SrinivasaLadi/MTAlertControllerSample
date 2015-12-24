@@ -18,16 +18,155 @@ static UIAlertView *presentedAlertView;
 @interface MTAlertController(){
     
 }
-
-@property(nonatomic,strong)MTAlertCancelBlock cancelBlock;
-@property(nonatomic,strong)MTAlertOKBlock okBlock;
-
 @end
 
 @implementation MTAlertController
 
 
-+(void)showAlertWithEmailText:(NSString*)message withPlaceHolder:(NSString*)str andTitle:(NSString*)title andOkButtonTitle:(NSString*)okButtonTitle andtarget:(id)currentClass asText:(BOOL)isText andAlertCancelBlock:(MTAlertCancelBlock)cancelBlock andAlertOkBlock:(MTAlertOKBlock)okAction{
+#pragma mark AlertView-message-Methods
+
++ (void)showWithAlertTitle:(NSString *)title
+                   message:(NSString *)message
+                    target:(id)currentClass
+         cancelButtonTitle:(NSString *)cancelButtonTitle {
+    [MTAlertController showWithAlertTitle:title message:message target:currentClass cancelButtonTitle:cancelButtonTitle cancelBlock:nil okButtonTitle:nil okBlock:nil otherButtonsBlock:nil otherButtonTitles:NULL];
+
+}
+
+
++ (void)showWithAlertTitle:(NSString *)title
+                   message:(NSString *)message
+                    target:(id)currentClass
+         cancelButtonTitle:(NSString *)cancelButtonTitle
+               cancelBlock:(MTAlertCancelBlock)cancelBlock {
+     [MTAlertController showWithAlertTitle:title message:message target:currentClass cancelButtonTitle:cancelButtonTitle cancelBlock:cancelBlock okButtonTitle:nil okBlock:nil otherButtonsBlock:nil otherButtonTitles:NULL];
+}
+
++ (void)showWithAlertTitle:(NSString *)title
+                   message:(NSString *)message
+                    target:(id)currentClass
+             okButtonTitle:(NSString *)okButtonTitle {
+     [MTAlertController showWithAlertTitle:title message:message target:currentClass cancelButtonTitle:nil cancelBlock:nil okButtonTitle:okButtonTitle okBlock:nil otherButtonsBlock:nil otherButtonTitles:NULL];
+    
+}
+
++ (void)showWithAlertTitle:(NSString *)title
+                   message:(NSString *)message
+                    target:(id)currentClass
+             okButtonTitle:(NSString *)okButtonTitle
+                   okBlock:(MTAlertOKBlock)okBlock {
+      [MTAlertController showWithAlertTitle:title message:message target:currentClass cancelButtonTitle:nil cancelBlock:nil okButtonTitle:okButtonTitle okBlock:okBlock otherButtonsBlock:nil otherButtonTitles:NULL];
+}
+
++ (void)showWithAlertTitle:(NSString *)title
+                   message:(NSString *)message
+                    target:(id)currentClass
+         cancelButtonTitle:(NSString *)cancelButtonTitle
+               cancelBlock:(MTAlertCancelBlock)cancelBlock
+             okButtonTitle:(NSString *)okButtonTitle
+                   okBlock:(MTAlertOKBlock)okBlock {
+    [MTAlertController showWithAlertTitle:title message:message target:currentClass cancelButtonTitle:cancelButtonTitle cancelBlock:cancelBlock okButtonTitle:okButtonTitle okBlock:okBlock otherButtonsBlock:nil otherButtonTitles:NULL];
+    
+}
+
+
++ (void)showWithAlertTitle:(NSString *)title
+                   message:(NSString *)message
+                    target:(id)currentClass
+         cancelButtonTitle:(NSString *)cancelButtonTitle
+               cancelBlock:(MTAlertCancelBlock)cancelBlock
+             okButtonTitle:(NSString *)okButtonTitle
+                   okBlock:(MTAlertOKBlock)okBlock
+         otherButtonsBlock:(MTAlerViewtOtherButtonsBlock)otherButtonsBlock
+         otherButtonTitles:(NSString *)otherButtonTitles, ...  {
+    
+    if (NSClassFromString(@"UIAlertController")) {
+        UIAlertController * alertVC=   [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+        if (cancelButtonTitle.length) {
+            UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:cancelButtonTitle style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
+                if (cancelBlock) {
+                 cancelBlock();
+                }
+
+                
+                [alertVC dismissViewControllerAnimated:YES completion:nil];
+                
+            }];
+            [alertVC addAction:cancelAction];
+        }
+        
+        if (okButtonTitle.length) {
+            UIAlertAction* okAction = [UIAlertAction actionWithTitle:okButtonTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+                
+                if (okBlock) {
+                okBlock(okButtonTitle);
+                }
+                
+            }];
+            [alertVC addAction:okAction];
+        }
+        
+        
+        va_list args;
+        va_start(args, otherButtonTitles);
+        int index =0 ;
+        for (NSString *buttonTitle = otherButtonTitles; buttonTitle != nil; buttonTitle = va_arg(args, NSString*))
+        {
+            // Assumes that no "other button" titles match the Cancel or OK button titles
+            UIAlertAction* otherAction = [UIAlertAction actionWithTitle:buttonTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+                if(otherButtonsBlock) {
+                otherButtonsBlock(buttonTitle,index);
+                }
+            }];
+            [alertVC addAction:otherAction];
+            index++;
+        }
+        va_end(args);
+        
+        [currentClass presentViewController:alertVC animated:YES completion:nil];
+    } else {
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:cancelButtonTitle otherButtonTitles:okButtonTitle,otherButtonTitles, nil];
+        
+        
+        [alertView showWithCompletion:^(UIAlertView *alertView, NSInteger buttonIndex) {
+            NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
+            if (buttonIndex == alertView.cancelButtonIndex) {
+                if (cancelBlock) {
+                cancelBlock();
+                }
+
+            } else if(buttonIndex == 0) {
+                if (okBlock) {
+                    okBlock(title);
+                }
+            } else {
+                if (otherButtonsBlock) {
+                    otherButtonsBlock(title,buttonIndex);
+
+                }
+            }
+            
+        
+        }];
+    }
+    
+    
+}
+
+
+#pragma mark AlertView-inputText-Methods
+
+
++(void)showAlertWithIntputText:(NSString*)strText
+                   placeHolder:(NSString*)placeHolderString
+                         title:(NSString*)title
+                        target:(id)currentClass
+                        isEdit:(BOOL)isEdit
+                 okButtonTitle:(NSString*)okButtonTitle
+                    okBlock:(MTAlertOKBlock)okBlock
+                 cancelButtonTitle:(NSString*)cancelButtonTitle
+                   cancelBlock:(MTAlertCancelBlock)cancelBlock {
     if (NSClassFromString(@"UIAlertController")) {
         presentedViewController=   [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleAlert];
         
@@ -35,12 +174,16 @@ static UIAlertView *presentedAlertView;
         UIAlertAction* ok = [UIAlertAction actionWithTitle:okButtonTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
             
             UITextField *userName = presentedViewController.textFields.firstObject;
-            okAction(userName.text);
+            if (okBlock) {
+                okBlock(userName.text);
+            }
+
         }];
         
-        UIAlertAction* cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-            
-            cancelBlock();
+        UIAlertAction* cancel = [UIAlertAction actionWithTitle:cancelButtonTitle style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
+            if (cancelBlock) {
+                cancelBlock();
+            }
             [presentedViewController dismissViewControllerAnimated:YES completion:nil];
             
         }];
@@ -48,114 +191,142 @@ static UIAlertView *presentedAlertView;
         [presentedViewController addAction:ok];
         
         [presentedViewController addTextFieldWithConfigurationHandler:^(UITextField *textField) {
-            if (isText) {
-                textField.text = message;
+            if (isEdit) {
+                textField.text = strText;
             }
             
             
-            textField.placeholder = str;
+            textField.placeholder = placeHolderString;
             
         }];
         
         [currentClass presentViewController:presentedViewController animated:YES completion:nil];
         
     }else{
-        presentedAlertView = [[UIAlertView alloc] initWithTitle:str message:nil delegate:nil cancelButtonTitle:@"Cancel" otherButtonTitles:okButtonTitle, nil];
+        presentedAlertView = [[UIAlertView alloc] initWithTitle:title message:nil delegate:nil cancelButtonTitle:cancelButtonTitle otherButtonTitles:okButtonTitle, nil];
         presentedAlertView.alertViewStyle = UIAlertViewStylePlainTextInput;
         UITextField *textField = [presentedAlertView textFieldAtIndex:0];
-        if (isText)
-            textField.text = message;
+        if (isEdit)
+            textField.text = strText;
         else
-            textField.placeholder = str;
+            textField.placeholder = placeHolderString;
         
         [presentedAlertView showWithCompletion:^(UIAlertView *alertView, NSInteger buttonIndex) {
             if (buttonIndex == 0) {
-                cancelBlock();
+                if (cancelBlock) {
+                    cancelBlock();
+                }
             }else if (buttonIndex == 1){
                 
-                okAction([alertView textFieldAtIndex:0].text);
+                if (okBlock) {
+                    okBlock([alertView textFieldAtIndex:0].text);
+                }
                 
             }
         }];
     }
 }
 
-+(void)showAlertWithMessage:(NSString*)message andTitle:(NSString*)title andOkButtonTitle:(NSString*)okButtonTitle andCancelTitle:(NSString*)cancleTitle andtarget:(id)currentClass andAlertCancelBlock:(MTAlertCancelBlock)cancelBlock andAlertOkBlock:(MTAlertOKBlock)okAction{
-    if (NSClassFromString(@"UIAlertController")) {
-        UIAlertController * alert=   [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
-        if (cancleTitle.length) {
-            UIAlertAction* cancel = [UIAlertAction actionWithTitle:cancleTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-                
-                cancelBlock();
-                
-                [alert dismissViewControllerAnimated:YES completion:nil];
-                
-            }];
-            [alert addAction:cancel];
-        }
-        
-        if (okButtonTitle.length) {
-            UIAlertAction* ok = [UIAlertAction actionWithTitle:okButtonTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){                                                           okAction(@"OK");
-            }];
-            [alert addAction:ok];
-        }
-        [currentClass presentViewController:alert animated:YES completion:nil];
-    }else{
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:nil cancelButtonTitle:cancleTitle otherButtonTitles:okButtonTitle, nil];
-        
-        [alertView showWithCompletion:^(UIAlertView *alertView, NSInteger buttonIndex) {
-            NSString *title = [alertView buttonTitleAtIndex:buttonIndex];
-            
-            if ([title isEqualToString:@"Yes"]) {
-                okAction(@"OK");
-                
-            }else if ([title isEqualToString:@"OK"]){
-                okAction(@"OK");
-            }
-        }];
-    }
-}
 
-+(void)showActionSheetTitles:(NSArray *) titleArray target:(id)currentClass withCancelBlock:(MTAlertCancelBlock)cancelBlock andAlertOKBlock:(MTAlertOtherButtonsBlock)okBlock{
+
+
+#pragma mark ActionSheet Method
+
+
++ (void)showActionSheetWithTitle:(NSString *)title
+                          target:(id)currentClass
+               cancelButtonTitle:(NSString *)cancelButtonTitle
+                     cancelBlock:(MTAlertCancelBlock)cancelBlock
+          destructiveButtonTitle:(NSString *)destructiveButtonTitle
+                destructiveBlock:(MTAlertDestructiveBlock)destructiveBlock
+               otherButtonsBlock:(MTAlerViewtOtherButtonsBlock)otherButtonsBlock
+               otherButtonTitles:(NSString *)otherButtonTitles, ... {
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        
+#if  TARGET_IPHONE_SIMULATOR
+        [MTAlertController showWithAlertTitle:@"Sorry!!!" message:@"This functionality is not supported for ipad" target:self cancelButtonTitle:@"OK"];
+#else
+        NSLog(@"This functionality is not supported for ipad.");
+#endif
+
+        return;
+    }
+    
     if (NSClassFromString(@"UIAlertController")) {
-        UIAlertController *actionSheetController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-        UIAlertAction *action1;
-        for (NSString *strTitle in titleArray) {
-            
-            action1 = [UIAlertAction actionWithTitle:strTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
-                okBlock([titleArray indexOfObject:strTitle]);
+        UIAlertController *alertVC = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        
+        
+        if (cancelButtonTitle.length) {
+            UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:cancelButtonTitle style:UIAlertActionStyleCancel handler:^(UIAlertAction * action) {
+                if (cancelBlock) {
+                    cancelBlock();
+                }
+
+                [alertVC dismissViewControllerAnimated:YES completion:nil];
+                
             }];
-            
-            [actionSheetController addAction:action1];
-            
+            [alertVC addAction:cancelAction];
+        }
+        
+        if (destructiveButtonTitle.length) {
+            UIAlertAction* okAction = [UIAlertAction actionWithTitle:destructiveButtonTitle style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action){
+                if (destructiveBlock) {
+                destructiveBlock(destructiveButtonTitle);
+                }
+            }];
+            [alertVC addAction:okAction];
         }
         
         
+        va_list args;
+        va_start(args, otherButtonTitles);
+        int index =0 ;
+        for (NSString *buttonTitle = otherButtonTitles; buttonTitle != nil; buttonTitle = va_arg(args, NSString*))
+        {
+            // Assumes that no "other button" titles match the Cancel or destructive button titles
+            UIAlertAction* otherAction = [UIAlertAction actionWithTitle:buttonTitle style:UIAlertActionStyleDefault handler:^(UIAlertAction * action){
+                if(otherButtonsBlock) {
+                    otherButtonsBlock(buttonTitle,index);
+                }
+            }];
+            [alertVC addAction:otherAction];
+            index++;
+        }
+        va_end(args);
         
-        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:^(UIAlertAction *action){
-            [actionSheetController dismissViewControllerAnimated:YES completion:nil];
-        }];
         
-        [actionSheetController addAction:cancel];
-        
-        //    actionSheetController.view.tintColor = BTBlackColor;
-        [currentClass presentViewController:actionSheetController animated:YES completion:nil];
+        [currentClass presentViewController:alertVC animated:YES completion:nil];
         
         
-    }else {
+    } else {
         //For IOS 7 devices
-        UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:nil
+        UIActionSheet *as = [[UIActionSheet alloc] initWithTitle:title
                                                         delegate:nil
-                                               cancelButtonTitle:@"Cancel"
-                                          destructiveButtonTitle:nil
-                                               otherButtonTitles:titleArray, nil];
+                                               cancelButtonTitle:cancelButtonTitle
+                                          destructiveButtonTitle:destructiveButtonTitle
+                                               otherButtonTitles:otherButtonTitles, nil];
         
         as.actionSheetStyle = UIActionSheetStyleBlackTranslucent;
         
         as.tapBlock = ^(UIActionSheet *actionSheet, NSInteger buttonIndex){
             
-            okBlock(buttonIndex);
-            NSLog(@"Chose %@", [actionSheet buttonTitleAtIndex:buttonIndex]);
+            if (buttonIndex == actionSheet.destructiveButtonIndex)
+            {
+                 if (destructiveBlock) {
+                destructiveBlock([actionSheet buttonTitleAtIndex:buttonIndex]);
+                 }
+            } else if  (buttonIndex == actionSheet.cancelButtonIndex) {
+                if (cancelBlock) {
+                    cancelBlock();
+                }
+
+            } else {
+                if(otherButtonsBlock) {
+                    otherButtonsBlock([actionSheet buttonTitleAtIndex:buttonIndex],buttonIndex);
+                }
+            }
+            
+            
         };
         
         UIViewController *vc =currentClass;

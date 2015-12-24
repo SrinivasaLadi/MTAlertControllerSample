@@ -9,54 +9,80 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-typedef void(^MTAlertCancelBlock)(void);  //Cancel block
-typedef void(^MTAlertOKBlock)(NSString* userName); //OK block
-typedef void(^MTAlertOtherButtonsBlock)(NSInteger buttonIndex); //Action sheet Block
+typedef void(^MTAlertCancelBlock)(void);
+
+typedef void(^MTAlertOKBlock)(NSString* userName);
+
+typedef void(^MTAlerViewtOtherButtonsBlock)(NSString* buttonName, NSInteger buttonIndex);
+
+typedef void(^MTAlertDestructiveBlock)(NSString* buttonName);
 
 @interface MTAlertController : NSObject
 
-/*!
- * @discussion It will show the alertview with textfeild
- * @param @strText it will show the renamable text if isText yes else  it will not in use
- * @param placeHolderString it will set the place holder string to text feild
- * @param title it will set to alert view title
- * @param okButtonTitle titleName
- * @param target should be current class self.
- * @param isText bool it will switch rename or input feature for text feild
- 
- * @return cancel block and okaction were the blocks on respecive button actions
+#pragma mark AlertView-Actions
 
- */
-
-+(void)showAlertWithEmailText:(NSString*)strText withPlaceHolder:(NSString*)placeHolderString andTitle:(NSString*)title andOkButtonTitle:(NSString*)okButtonTitle andtarget:(id)currentClass asText:(BOOL)isText andAlertCancelBlock:(MTAlertCancelBlock)cancelBlock andAlertOkBlock:(MTAlertOKBlock)okAction;
++ (void)showWithAlertTitle:(NSString *)title
+                      message:(NSString *)message
+                    target:(id)currentClass
+                cancelButtonTitle:(NSString *)cancelButtonTitle;
 
 
-/*!
- * @discussion It will show the normal alertview with buttons
- * @param message which message has to show
- * @param title it will set to alert view title
- * @param okButtonTitle titleName
- * @param target should be current class self.
- * @param isText bool it will switch rename or input feature for text feild
- 
- * @return cancel block and okaction were the blocks on respecive button actions
- 
- */
++ (void)showWithAlertTitle:(NSString *)title
+                      message:(NSString *)message
+                    target:(id)currentClass
+            cancelButtonTitle:(NSString *)cancelButtonTitle
+                  cancelBlock:(MTAlertCancelBlock)cancelBlock;
+
++ (void)showWithAlertTitle:(NSString *)title
+                      message:(NSString *)message
+                    target:(id)currentClass
+                okButtonTitle:(NSString *)okButtonTitle;
+
++ (void)showWithAlertTitle:(NSString *)title
+                      message:(NSString *)message
+                    target:(id)currentClass
+                okButtonTitle:(NSString *)okButtonTitle
+                      okBlock:(MTAlertOKBlock)okBlock;
+
++ (void)showWithAlertTitle:(NSString *)title
+                      message:(NSString *)message
+                    target:(id)currentClass
+            cancelButtonTitle:(NSString *)cancelButtonTitle
+                  cancelBlock:(MTAlertCancelBlock)cancelBlock
+                okButtonTitle:(NSString *)okButtonTitle
+                      okBlock:(MTAlertOKBlock)okBlock;
+
++ (void)showWithAlertTitle:(NSString *)title
+                      message:(NSString *)message
+                    target:(id)currentClass
+            cancelButtonTitle:(NSString *)cancelButtonTitle
+                  cancelBlock:(MTAlertCancelBlock)cancelBlock
+                okButtonTitle:(NSString *)okButtonTitle
+                      okBlock:(MTAlertOKBlock)okBlock
+            otherButtonsBlock:(MTAlerViewtOtherButtonsBlock)otherButtonsBlock
+            otherButtonTitles:(NSString *)otherButtonTitles, ... ;
 
 
-+(void)showAlertWithMessage:(NSString*)message andTitle:(NSString*)title andOkButtonTitle:(NSString*)okButtonTitle andCancelTitle:(NSString*)cancleTitle andtarget:(id)currentClass andAlertCancelBlock:(MTAlertCancelBlock)cancelBlock andAlertOkBlock:(MTAlertOKBlock)okAction;
+#pragma mark AlertView Input Text
 
-/*!
- * @discussion It will show the normal alertview with buttons
- * @param message which message has to show
- * @param title it will set to alert view title
- * @param okButtonTitle titleName
- * @param target should be current class self.
- * @param isText bool it will switch rename or input feature for text feild
- 
- * @return cancel block and okaction were the blocks on respecive button actions
- 
- */
++(void)showAlertWithIntputText:(NSString*)strText
+                   placeHolder:(NSString*)placeHolderString
+                         title:(NSString*)title
+                        target:(id)currentClass
+                        isEdit:(BOOL)isEdit
+                 okButtonTitle:(NSString*)okButtonTitle
+                       okBlock:(MTAlertOKBlock)okBlock
+             cancelButtonTitle:(NSString*)cancelButtonTitle
+                   cancelBlock:(MTAlertCancelBlock)cancelBlock;
 
-+(void)showActionSheetTitles:(NSArray *) titleArray target:(id)currentClass withCancelBlock:(MTAlertCancelBlock)cancelBlock andAlertOKBlock:(MTAlertOtherButtonsBlock)okBlock;
+#pragma mark ActionSheet
+
++ (void)showActionSheetWithTitle:(NSString *)title
+                          target:(id)currentClass
+               cancelButtonTitle:(NSString *)cancelButtonTitle
+                     cancelBlock:(MTAlertCancelBlock)cancelBlock
+          destructiveButtonTitle:(NSString *)destructiveButtonTitle
+                destructiveBlock:(MTAlertDestructiveBlock)destructiveBlock
+               otherButtonsBlock:(MTAlerViewtOtherButtonsBlock)otherButtonsBlock
+               otherButtonTitles:(NSString *)otherButtonTitles, ... ;
 @end
