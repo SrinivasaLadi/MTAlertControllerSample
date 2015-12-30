@@ -115,3 +115,12 @@ i)Forgot passowrd
 
 
 Notes : Action sheet will only support for iPhone , if you called in iPad it will automatically show an alert “This functionality is not available for this current device.”
+
+### Requirements
+
+- will support iOS 7.0 or higher
+- Automatic Reference Counting (ARC)
+
+### Author
+
+- [Srinivasa Ladi](https://github.com/SrinivasaLadi) ([@SrinivasaLadi](https://about.me/srinivasaladi))
