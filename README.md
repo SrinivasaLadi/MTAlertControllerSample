@@ -12,27 +12,25 @@ MTAlertViewController is designed to satisfy the both UIAlertview and UIActionsh
 For your reference please had a look at below cases
 
 
-case 1: Alertview Actions like YES or NO or Multiple.
+#####Case 1: Alertview Actions like YES or NO or Multiple.
 
- 1:
- 
- [MTAlertController showWithAlertTitle:@"Logout" message:@"Are you sure do you want to Signout now?" target:self cancelButtonTitle:@"No" cancelBlock:^{
+
+ 1: [MTAlertController showWithAlertTitle:@"Logout" message:@"Are you sure do you want to Signout now?" target:self cancelButtonTitle:@"No" cancelBlock:^{
         [MTAlertController showWithAlertTitle:@"No Action" message:@"No Action Pressed" target:self cancelButtonTitle:@"Ok"];
         
     } okButtonTitle:@"Yes" okBlock:^(NSString *userName) {
          [MTAlertController showWithAlertTitle:@"Yes Action" message:@"Yes Action Pressed" target:self okButtonTitle:@"Ok"];
     }];
 
-2: 
 
-  [MTAlertController showWithAlertTitle:@"Error!!" message:@"Please Enter Valid email id" target:self okButtonTitle:@"OK" okBlock:^(NSString *userName) {
+2:  [MTAlertController showWithAlertTitle:@"Error!!" message:@"Please Enter Valid email id" target:self okButtonTitle:@"OK" okBlock:^(NSString *userName) {
        
         //you can write code for handle events here
         
     }];
 
-3: 
-  [MTAlertController showWithAlertTitle:@"MultiAlert" message:@"A new version of iTunes (12.3.2) is available. Would you like to download it now?" target:self cancelButtonTitle:@"Cancel" cancelBlock:^{
+
+3:   [MTAlertController showWithAlertTitle:@"MultiAlert" message:@"A new version of iTunes (12.3.2) is available. Would you like to download it now?" target:self cancelButtonTitle:@"Cancel" cancelBlock:^{
         //Handle Cancel code here
     } okButtonTitle:@"Download" okBlock:^(NSString *userName) {
         
@@ -44,7 +42,9 @@ case 1: Alertview Actions like YES or NO or Multiple.
     } otherButtonTitles:@"Don't Download",nil];
 
 
-Case 2: Alert view with input text: it's basically used for  forgot password ,name and rename functionalities.
+
+#####Case 2: Alert view with input text: it's basically used for  forgot password ,name and rename functionalities.
+
 i)Forgot passowrd
 
   [MTAlertController showAlertWithIntputText:@"" placeHolder:@"please enter email adress" title:@"Forgot Password ???"  target:self isEdit:NO  okButtonTitle:@"Send" okBlock:^(NSString *userName) {
@@ -92,7 +92,7 @@ i)Forgot passowrd
     }];
 
 
-3) Action Sheet which will support for only iphone version devices .
+#####Case 3) Action Sheet which will support for only iphone version devices .
 
  [MTAlertController showActionSheetWithTitle:@"Select photo" target:self cancelButtonTitle:@"Cancel" cancelBlock:^{
         
