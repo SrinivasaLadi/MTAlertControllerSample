@@ -15,22 +15,35 @@ For your reference please had a look at below cases
 #####Case 1: Alertview Actions like YES or NO or Multiple.
 
 
- 1: ``` [MTAlertController showWithAlertTitle:@"Logout" message:@"Are you sure do you want to Signout now?" target:self cancelButtonTitle:@"No" cancelBlock:^{
+ 1: YES or NO Questions 
+
+```  objective-c
+[MTAlertController showWithAlertTitle:@"Logout" message:@"Are you sure do you want to Signout now?" target:self cancelButtonTitle:@"No" cancelBlock:^{
         [MTAlertController showWithAlertTitle:@"No Action" message:@"No Action Pressed" target:self cancelButtonTitle:@"Ok"];
         
     } okButtonTitle:@"Yes" okBlock:^(NSString *userName) {
          [MTAlertController showWithAlertTitle:@"Yes Action" message:@"Yes Action Pressed" target:self okButtonTitle:@"Ok"];
     }];
 
+```
 
-2:  ``` [MTAlertController showWithAlertTitle:@"Error!!" message:@"Please Enter Valid email id" target:self okButtonTitle:@"OK" okBlock:^(NSString *userName) {
+2:  To notify the information to user
+
+```  objective-c
+
+[MTAlertController showWithAlertTitle:@"Error!!" message:@"Please Enter Valid email id" target:self okButtonTitle:@"OK" okBlock:^(NSString *userName) {
        
         //you can write code for handle events here
         
     }];
 
+```
 
-3:  ``` [MTAlertController showWithAlertTitle:@"MultiAlert" message:@"A new version of iTunes (12.3.2) is available. Would you like to download it now?" target:self cancelButtonTitle:@"Cancel" cancelBlock:^{
+3: To Enqurie user with multiple actions titles.
+
+```  objective-c
+
+ [MTAlertController showWithAlertTitle:@"MultiAlert" message:@"A new version of iTunes (12.3.2) is available. Would you like to download it now?" target:self cancelButtonTitle:@"Cancel" cancelBlock:^{
         //Handle Cancel code here
     } okButtonTitle:@"Download" okBlock:^(NSString *userName) {
         
@@ -41,13 +54,15 @@ For your reference please had a look at below cases
         
     } otherButtonTitles:@"Don't Download",nil];
 
-
+``` 
 
 #####Case 2: Alert view with input text: it's basically used for  forgot password ,name and rename functionalities.
 
 i)Forgot passowrd
 
-```
+
+```  objective-c 
+
   [MTAlertController showAlertWithIntputText:@"" placeHolder:@"please enter email adress" title:@"Forgot Password ???"  target:self isEdit:NO  okButtonTitle:@"Send" okBlock:^(NSString *userName) {
         if(userName.length > 0 ) {
             NSLog(@"%@",userName);
@@ -61,10 +76,12 @@ i)Forgot passowrd
         
     }];
 
+```
 
 2) Name Functionalities 
 
-```
+```  objective-c
+
     [MTAlertController showAlertWithIntputText:@"" placeHolder:@"please enter suitcase name" title:@"Create suitcase"  target:self isEdit:NO okButtonTitle:@"Create" okBlock:^(NSString *userName) {
         if(userName.length > 0 ) {
             NSLog(@"created suitcase name is :%@",userName);
@@ -78,10 +95,13 @@ i)Forgot passowrd
 
     }];
 
+```
+
 
 3) Rename Functionalities 
 
-```
+```  objective-c
+
 [MTAlertController showAlertWithIntputText:@"Mtuity COE" placeHolder:@"please enter suitcase name" title:@"Rename suitcase"  target:self isEdit:YES  okButtonTitle:@"Rename" okBlock:^(NSString *userName) {
         if(userName.length > 0 ) {
             NSLog(@"created suitcase name is :%@",userName);
@@ -95,10 +115,11 @@ i)Forgot passowrd
         
     }];
 
+```
 
 #####Case 3) Action Sheet which will support for only iphone version devices .
 
-```
+```  objective-c
 
  [MTAlertController showActionSheetWithTitle:@"Select photo" target:self cancelButtonTitle:@"Cancel" cancelBlock:^{
         
@@ -124,6 +145,8 @@ i)Forgot passowrd
     } otherButtonTitles:@"Take Photo",@"Choose From Gallery", nil];
 
     }];
+
+```
 
 
 Notes : Action sheet will only support for iPhone , if you called in iPad it will automatically show an alert “This functionality is not available for this current device.”
